@@ -1,0 +1,6 @@
+Documentation:
+  Enabled: false
+AbcSize:
+  Enabled: false
+MethodLength:
+  Enabled: false

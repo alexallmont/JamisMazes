@@ -1,5 +1,4 @@
 class Sidewinder
-
   def self.on(grid)
     grid.each_row do |row|
       run = []
@@ -12,7 +11,7 @@ class Sidewinder
 
         should_close_out =
           at_eastern_boundary ||
-          (!at_northern_boundary && (rand(2) == 0))
+          (!at_northern_boundary && rand(2).zero?)
 
         if should_close_out
           member = run.sample

@@ -1,10 +1,9 @@
 require_relative 'cell'
 class Grid
-
   attr_reader :rows, :columns
 
   def initialize(rows, columns)
-    @rows = rows  
+    @rows = rows
     @columns = columns
     @grid = prepare_grid
     configure_cells
@@ -20,13 +19,13 @@ class Grid
 
   def configure_cells
     each_cell do |cell|
-      row = cell.row  
+      row = cell.row
       col = cell.column
 
-      cell.north = self[row - 1, col]  
-      cell.south = self[row + 1, col]  
-      cell.west  = self[row, col - 1]  
-      cell.east  = self[row, col + 1]  
+      cell.north = self[row - 1, col]
+      cell.south = self[row + 1, col]
+      cell.west  = self[row, col - 1]
+      cell.east  = self[row, col + 1]
     end
   end
 
@@ -56,7 +55,7 @@ class Grid
   def each_cell
     each_row do |row|
       row.each do |cell|
-	yield cell if cell
+        yield cell if cell
       end
     end
   end
@@ -73,11 +72,11 @@ class Grid
 
         body = '   ' # 3 spaces
         east_boundary = cell.linked?(cell.east) ? ' ' : '|'
-	top << body << east_boundary
+        top << body << east_boundary
 
         south_boundary = cell.linked?(cell.south) ? '   ' : '---'
-	corner = '+'
-	bottom << south_boundary << corner
+        corner = '+'
+        bottom << south_boundary << corner
       end
 
       output << top << "\n"
@@ -86,5 +85,4 @@ class Grid
 
     output
   end
-
 end
