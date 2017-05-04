@@ -4,3 +4,5 @@ AbcSize:
   Enabled: false
 MethodLength:
   Enabled: false
+UnusedMethodArgument:
+  Enabled: false
