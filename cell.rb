@@ -30,7 +30,7 @@ class Cell
     @links.key?(cell)
   end
 
-  def neighbors
+  def neighbours
     list = []
     list << north if north
     list << south if south
