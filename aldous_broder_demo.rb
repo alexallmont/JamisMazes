@@ -7,3 +7,5 @@ AldousBroder.on(grid)
 filename = 'aldous_broder.png'
 grid.to_png.save(filename)
 puts "saved to #{filename}"
+
+puts "#{grid.deadends.count} dead-ends"
