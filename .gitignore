@@ -1,3 +1,5 @@
+*.swp
+
 ## BASIC cut down version from  https://github.com/github/gitignore
 
 *.gem
