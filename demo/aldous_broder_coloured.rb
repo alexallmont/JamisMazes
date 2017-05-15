@@ -1,5 +1,5 @@
-require_relative 'coloured_grid'
-require_relative 'aldous_broder'
+require_relative '../lib/coloured_grid'
+require_relative '../lib/aldous_broder'
 
 6.times do |n|
   grid = ColouredGrid.new(20, 20)

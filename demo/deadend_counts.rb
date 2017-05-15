@@ -1,9 +1,9 @@
-require_relative 'grid'
-require_relative 'binary_tree'
-require_relative 'sidewinder'
-require_relative 'aldous_broder'
-require_relative 'wilsons'
-require_relative 'hunt_and_kill'
+require_relative '../lib/grid'
+require_relative '../lib/binary_tree'
+require_relative '../lib/sidewinder'
+require_relative '../lib/aldous_broder'
+require_relative '../lib/wilsons'
+require_relative '../lib/hunt_and_kill'
 
 algorithms = [
   BinaryTree,

@@ -1,5 +1,5 @@
-require_relative 'distance_grid'
-require_relative 'binary_tree'
+require_relative '../lib/distance_grid'
+require_relative '../lib/binary_tree'
 
 grid = DistanceGrid.new(5, 5)
 BinaryTree.on(grid)

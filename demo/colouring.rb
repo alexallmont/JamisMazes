@@ -1,5 +1,5 @@
-require_relative 'coloured_grid'
-require_relative 'binary_tree'
+require_relative '../lib/coloured_grid'
+require_relative '../lib/binary_tree'
 
 grid = ColouredGrid.new(25, 25)
 BinaryTree.on(grid)

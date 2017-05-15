@@ -1,5 +1,5 @@
-require_relative 'grid'
-require_relative 'aldous_broder'
+require_relative '../lib/grid'
+require_relative '../lib/aldous_broder'
 
 grid = Grid.new(20, 20)
 AldousBroder.on(grid)

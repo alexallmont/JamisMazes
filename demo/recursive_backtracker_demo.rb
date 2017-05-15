@@ -1,5 +1,5 @@
-require_relative 'recursive_backtracker'
-require_relative 'grid'
+require_relative '../lib/recursive_backtracker'
+require_relative '../lib/grid'
 
 grid = Grid.new(20, 20)
 RecursiveBacktracker.on(grid)
