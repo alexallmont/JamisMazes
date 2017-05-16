@@ -14,7 +14,7 @@ class HuntAndKill
 
         grid.each_cell do |cell|
           visited_neighbours = cell.neighbours.select { |n| n.links.any? }
-          if cell.links.empty? and visited_neighbours.any?
+          if cell.links.empty? || visited_neighbours.any?
             current = cell
 
             neighbour = visited_neighbours.sample

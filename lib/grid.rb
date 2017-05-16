@@ -62,11 +62,11 @@ class Grid
     end
   end
 
-  def contents_of(cell)
+  def contents_of(_cell)
     ' '
   end
 
-  def background_colour_for(cell)
+  def background_colour_for(_cell)
     nil
   end
 

@@ -30,4 +30,3 @@ class Wilsons
     grid
   end
 end
-

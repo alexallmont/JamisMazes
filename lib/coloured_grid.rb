@@ -4,11 +4,13 @@ require 'chunky_png'
 class ColouredGrid < Grid
   def distances=(distances)
     @distances = distances
-    farthest, @maximum = distances.max
+    _farthest, @maximum = distances.max
   end
 
   def background_colour_for(cell)
-    distance = @distances[cell] or return nil
+    return nil if @distances[cell].nil?
+
+    distance = @distances[cell]
     intensity = (@maximum - distance).to_f / @maximum
     dark = (255 * intensity).round
     bright = 128 + (127 * intensity).round

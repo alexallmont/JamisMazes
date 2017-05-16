@@ -40,5 +40,10 @@ sorted_algorithms = algorithms.sort_by { |algorithm| -averages[algorithm] }
 
 sorted_algorithms.each do |algorithm|
   percentage = averages[algorithm] * 100.0 / (size * size)
-  puts "%14s : %3d/%d (%d%%)" % [algorithm, averages[algorithm], total_cells, percentage]
+  puts '%14s : %3d/%d (%d%%)' % [
+    algorithm,
+    averages[algorithm],
+    total_cells,
+    percentage
+  ]
 end
