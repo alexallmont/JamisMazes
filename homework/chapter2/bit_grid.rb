@@ -13,29 +13,50 @@ class BitCell
     @bitmask = 0
   end
 
-  def north=(bit_cell)
-    raise 'invalid north cell' unless bit_cell.is_north_of?(self)
-    if @row > 0
-      @bitmask |= NORTH
-    else
-      @bitmask &= ^NORTH
+  def link(cell, bidi = true)
+    @bitmask |= adjacency_bitmask(cell)
+    cell.link(self) if bidi
+    self
+  end
+
+  def unlink(cell, bidi = true)
+    @bitmask &= ~adjacency_bitmask(cell)
+    cell.unlink(self) if bidi
+    self
+  end
+
+  # Returns the adjacency
+  def adjacency_bitmask(cell)
+    if cell.column == column
+      if cell.row = row - 1
+        return NORTH
+      elsif cell.row = row + 1
+        return SOUTH
+      end
+    elsif cell.row == row
+      if cell.column = column - 1
+        return WEST
+      elsif cell.column = column + 1
+        return EAST
+      end
     end
+    return 0
   end
 
-  def is_north_of?(bit_cell)
-    return (bit_cell.row - 1 == row) && (bit_cell.column == column)
+  def north
+    return BitCell.new(@bit_grid, row - 1, column) if row > 0
   end
 
-  def is_east_of?(bit_cell)
-    return (bit_cell.row == row) && (bit_cell.column + 1 == column)
+  def east
+    return BitCell.new(@bit_grid, row, column + 1) if column < @bit_grid.columns - 1
   end
 
-  def is_south_of?(bit_cell)
-    return (bit_cell.row + 1 == row) && (bit_cell.column == column)
+  def south
+    return BitCell.new(@bit_grid, row + 1, column) if row < @bit_grid.rows - 1
   end
 
-  def is_west_of?(bit_cell)
-    return (bit_cell.row == row) && (bit_cell.column - 1 == column)
+  def west
+    return BitCell.new(@bit_grid, row, column - 1) column > 0
   end
 
   def to_i
@@ -57,4 +78,4 @@ class BitGrid
       end
     end
   end
-
+end
