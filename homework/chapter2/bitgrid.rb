@@ -27,7 +27,7 @@ class BitCell
   end
 
   def linked?(cell)
-    return 0 if cell.nil?
+    return false if cell.nil?
     (adjacency_bitmask(cell) & bitmask) != 0
   end
 
@@ -71,19 +71,24 @@ class BitCell
 
   def neighbours
     list = [north, east, south, west]
-    list.delete_if { |n| n.nil? }
-    list
+    list.delete_if { |cell| cell.nil? }
   end
 
   def links
-    list = [north, east, south, west]
-    list.delete_if { |n| n.nil? or n.bitmask == 0 }
-    list
+    list = []
+    bm = bitmask
+    list << north if (bm & NORTH) != 0
+    list << east if (bm & EAST) != 0
+    list << south if (bm & SOUTH) != 0
+    list << west if (bm & WEST) != 0
+    list.delete_if { |cell| cell.nil? }
   end
 end
 
 class BitGrid
   attr_reader :rows, :columns
+
+  DEBUG_LINKS = false
 
   def initialize(rows, columns)
     @rows = rows
@@ -111,16 +116,10 @@ class BitGrid
     @rows * @columns
   end
 
-  def each_row
-    @grid.each do |row|
-      yield row
-    end
-  end
-
   def each_cell
-    @rows.times do |row_i|
-      @columns.times do |col_i|
-        yield BitCell.new(self, row_i, col_i)
+    @rows.times do |row|
+      @columns.times do |column|
+        yield BitCell.new(self, row, column)
       end
     end
   end
@@ -137,8 +136,12 @@ class BitGrid
     @grid[row][column] |= bitmask
   end
 
-  def contents_of(_cell)
-    ' '
+  def contents_of(cell)
+    if DEBUG_LINKS
+      cell.bitmask.to_s(16)
+    else
+      ' '
+    end
   end
 
   def background_colour_for(_cell)
@@ -148,12 +151,12 @@ class BitGrid
   def to_s
     output = "+#{'---+' * columns}\n"
 
-    @rows.times do |row_i|
+    @rows.times do |row|
       top = '|'
       bottom = '+'
 
-      @columns.time do |col_i|
-        cell = BitCell.new(self, row_i, col_i)
+      @columns.times do |column|
+        cell = BitCell.new(self, row, column)
 
         body = " #{contents_of(cell)} "
         east_boundary = cell.linked?(cell.east) ? ' ' : '|'
