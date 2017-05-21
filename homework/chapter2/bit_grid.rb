@@ -6,21 +6,20 @@ class BitCell
   SOUTH 1 << 2
   WEST  1 << 3
 
-  def initialize(bit_grid, row, column)
-    @bit_grid = bit_grid
+  def initialize(bitgrid, row, column)
+    @bitgrid = bitgrid
     @row = row
     @column = column
-    @bitmask = 0
   end
 
   def link(cell, bidi = true)
-    @bitmask |= adjacency_bitmask(cell)
+    @bitgrid.set_cell_bitmask(adjacency_bitmask(cell))
     cell.link(self) if bidi
     self
   end
 
   def unlink(cell, bidi = true)
-    @bitmask &= ~adjacency_bitmask(cell)
+    @bitgrid.clear_cell_bitmask(adjacency_bitmask(cell))
     cell.unlink(self) if bidi
     self
   end
@@ -44,19 +43,19 @@ class BitCell
   end
 
   def north
-    return BitCell.new(@bit_grid, row - 1, column) if row > 0
+    return BitCell.new(@bitgrid, row - 1, column) if row > 0
   end
 
   def east
-    return BitCell.new(@bit_grid, row, column + 1) if column < @bit_grid.columns - 1
+    return BitCell.new(@bitgrid, row, column + 1) if column < @bitgrid.columns - 1
   end
 
   def south
-    return BitCell.new(@bit_grid, row + 1, column) if row < @bit_grid.rows - 1
+    return BitCell.new(@bitgrid, row + 1, column) if row < @bitgrid.rows - 1
   end
 
   def west
-    return BitCell.new(@bit_grid, row, column - 1) column > 0
+    return BitCell.new(@bitgrid, row, column - 1) column > 0
   end
 
   def to_i
@@ -77,5 +76,47 @@ class BitGrid
         0
       end
     end
+  end
+
+  def [](row, column)
+    return nil unless row.between?(0, @rows - 1)
+    return nil unless column.between(0, @columns - 1)
+    BitCell.new(self, row, column)
+  end
+
+  def random_cell
+    row = rand(@rows)
+    column = rand(@column)
+    self[row, column]
+  end
+
+  def size
+    @rows * @columns
+  end
+
+  def each_row
+    @grid.each do |row|
+      yield row
+    end
+  end
+
+  def each_cell
+    @rows.times do |row_index|
+      @columns.times do |column_index|
+        yield Cell.new(self, row, column)
+      end
+    end
+  end
+
+  def cell_bitmask(row, column)
+    @rows[row][column]
+  end
+
+  def clear_cell_bitmask(row, column, bitmask)
+    @rows[row][column] &= ~bitmask
+  end
+
+  def set_cell_bitmask(row, column, bitmask)
+    @rows[row][column] |= bitmask
   end
 end
