@@ -62,14 +62,6 @@ class Grid
     end
   end
 
-  def contents_of(_cell)
-    ' '
-  end
-
-  def background_colour_for(_cell)
-    nil
-  end
-
   def to_s
     output = "+#{'---+' * columns}\n"
 
@@ -80,7 +72,7 @@ class Grid
       row.each do |cell|
         cell = Cell.new(-1, -1) unless cell
 
-        body = " #{contents_of(cell)} "
+        body = "   "
         east_boundary = cell.linked?(cell.east) ? ' ' : '|'
         top << body << east_boundary
 
@@ -102,38 +94,20 @@ class Grid
 
     background = ChunkyPNG::Color::WHITE
     wall = ChunkyPNG::Color::BLACK
-
     img = ChunkyPNG::Image.new(width + 1, height + 1, background)
 
-    [:backgrounds, :walls].each do |mode|
-      each_cell do |cell|
-        x1 = cell.column * cell_size
-        y1 = cell.row * cell_size
-        x2 = x1 + cell_size
-        y2 = y1 + cell_size
+    each_cell do |cell|
+      x1 = cell.column * cell_size
+      y1 = cell.row * cell_size
+      x2 = x1 + cell_size
+      y2 = y1 + cell_size
 
-        if mode == :backgrounds
-          colour = background_colour_for(cell)
-          img.rect(x1, y1, x2, y2, colour, colour) if colour
-        else
-          img.line(x1, y1, x2, y1, wall) unless cell.north
-          img.line(x1, y1, x1, y2, wall) unless cell.west
-          img.line(x2, y1, x2, y2, wall) unless cell.linked?(cell.east)
-          img.line(x1, y2, x2, y2, wall) unless cell.linked?(cell.south)
-        end
-      end
+      img.line(x1, y1, x2, y1, wall) unless cell.north
+      img.line(x1, y1, x1, y2, wall) unless cell.west
+      img.line(x2, y1, x2, y2, wall) unless cell.linked?(cell.east)
+      img.line(x1, y2, x2, y2, wall) unless cell.linked?(cell.south)
     end
 
     img
-  end
-
-  def deadends
-    list = []
-
-    each_cell do |cell|
-      list << cell if cell.links.count == 1
-    end
-
-    list
   end
 end
